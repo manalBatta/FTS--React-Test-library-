@@ -15,4 +15,7 @@ module.exports = {
     `[/\\\\]node_modules[/\\\\](?!${esModules}).+\\.(js|jsx|mjs|cjs|ts|tsx)$`,
     "^.+\\.module\\.(css|sass|scss)$",
   ],
+  testEnvironmentOptions: {
+    customExportConditions: [""],
+  },
 };
