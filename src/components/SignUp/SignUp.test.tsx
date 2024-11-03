@@ -1,8 +1,9 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import SignUp from "./";
 import { handlers } from "./handlers";
+import userEvent from "@testing-library/user-event";
 import { debug } from "jest-preview";
 // Setting up the mock server
 const server = setupServer(...handlers);
@@ -14,17 +15,55 @@ afterAll(() => server.close());
 describe("SignUp Component", () => {
   describe("Validation", () => {
     it("should display validation errors for invalid email", async () => {
+      //Arrange
       render(<SignUp />);
+
+      //Act
+      const emailInput = screen.getByLabelText(/Email Address/i);
+      userEvent.type(emailInput, "InvalidEmail");
+      userEvent.tab();
+      //Assert
+      expect(
+        await screen.findByText("Enter a valid email")
+      ).toBeInTheDocument();
       // use jest preview to debug your test
       debug();
     });
 
     it("should display validation errors for short password", async () => {
+      //Arrange
       render(<SignUp />);
+
+      //Act
+      const passwrodInput = screen.getByLabelText(/Password/i);
+      userEvent.type(passwrodInput, "short");
+      userEvent.tab();
+      //Assert
+      expect(
+        await screen.findByText(
+          "Password should be of minimum 8 characters length"
+        )
+      ).toBeInTheDocument();
     });
 
     it("should display success message on successful sign-up", async () => {
+      //Arrange
       render(<SignUp />);
+
+      //Act
+      const emailInput = screen.getByLabelText(/Email Address/i);
+      userEvent.type(emailInput, "ValidEmail@gmail.com");
+
+      const passwrodInput = screen.getByLabelText(/Password/i);
+      userEvent.type(passwrodInput, "12345678");
+
+      const submitBtn = screen.getByRole("button", { name: /Sign Up/i });
+      userEvent.click(submitBtn);
+
+      //Assert
+      expect(
+        await screen.findByText("Sign Up Successfully!")
+      ).toBeInTheDocument();
     });
 
     it("should display error message on sign-up failure", async () => {

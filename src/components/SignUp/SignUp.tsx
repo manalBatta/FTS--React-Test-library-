@@ -32,6 +32,7 @@ function SignUp() {
       setIsLoading(true);
       signUp(values)
         .then((response) => {
+          console.log(response);
           setSnackbarMessage("Sign Up Successfully!");
           setIsAuthenticated(true);
         })
@@ -56,8 +57,7 @@ function SignUp() {
             flexDirection: "column",
             alignItems: "center",
           }}
-          maxWidth={"xs"}
-        >
+          maxWidth={"xs"}>
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -68,8 +68,7 @@ function SignUp() {
             component="form"
             noValidate
             onSubmit={formik.handleSubmit}
-            sx={{ mt: 3 }}
-          >
+            sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -137,8 +136,7 @@ function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={!formik.isValid || !formik.dirty}
-              loading={isLoading}
-            >
+              loading={isLoading}>
               Sign Up
             </LoadingButton>
             <Grid container justifyContent="flex-end">
