@@ -32,7 +32,6 @@ function SignUp() {
       setIsLoading(true);
       signUp(values)
         .then((response) => {
-          console.log(response);
           setSnackbarMessage("Sign Up Successfully!");
           setIsAuthenticated(true);
         })
