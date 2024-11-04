@@ -15,8 +15,15 @@ export interface User {
   email: string;
   token: string;
 }
+
 export type GenericErrors = Record<string, string[]>;
 
-export async function signUp(user: UserForRegistration): Promise<User | GenericErrors> {
-  return axios.post("users", { user });
+export async function signUp(user: UserForRegistration) {
+  return await fetch("https://api.realworld.io/api/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
 }

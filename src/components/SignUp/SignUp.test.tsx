@@ -67,7 +67,21 @@ describe("SignUp Component", () => {
     });
 
     it("should display error message on sign-up failure", async () => {
+      //Arrange
       render(<SignUp />);
+
+      //Act
+      const emailInput = screen.getByLabelText(/Email Address/i);
+      userEvent.type(emailInput, "unvalid@gmail.com");
+
+      const passwrodInput = screen.getByLabelText(/Password/i);
+      userEvent.type(passwrodInput, "1122334455");
+
+      const submitBtn = screen.getByRole("button", { name: /Sign Up/i });
+      userEvent.click(submitBtn);
+
+      //Assert
+      expect(await screen.findByText("Error Signing Up!")).toBeInTheDocument();
     });
   });
 
